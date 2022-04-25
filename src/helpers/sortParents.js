@@ -2,7 +2,19 @@ exports.sortParents = (data) => {
 	if (!data) throw Error('Отсутствуют данные');
 	if (data.length === 0) return [];
 
-	const findParent = () => data.filter((item) => item.parentId === null).pop();
+	// const findParent = () => data.filter((item) => item.parentId === null).pop();
+	const findParent = () => {
+		let result = null;
+		data.forEach((item) => {
+			if (item.parentId) {
+				const res = data.findIndex((user) => user.id === item.parentId);
+				if (res === -1) result = item;
+			} else {
+				result = item;
+			}
+		});
+		return result;
+	};
 	const findByParentId = (parentId) =>
 		data.filter((item) => item.parentId === parentId);
 	const arr = [];
